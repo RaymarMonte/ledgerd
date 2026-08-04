@@ -211,7 +211,7 @@ Prometheus, Grafana dashboard, load test, publish numbers, tune one thing, publi
 **Done when:** the README contains a before-and-after benchmark.
 
 ### Phase 7: Write it up
-README polish, ADRs backfilled and cleaned, "what went wrong" section written from the journal, diagram finalized, demo GIF.
+README polish, ADRs backfilled and cleaned (all ADRs should be in /docs/adr if not yet already), "what went wrong" section written from the journal, diagram finalized, demo GIF.
 **Done when:** the README can stand on its own without the walkthrough
 
 Phases 5 and 6 can swap order. Phases 0 through 2 are non-negotiable prerequisites for everything else.
@@ -219,7 +219,7 @@ Phases 5 and 6 can swap order. Phases 0 through 2 are non-negotiable prerequisit
 ## 8. Open decisions to make early
 
 1. **Money representation: integer minor units vs BigDecimal vs floating point.** The decision is integer minor units. Write the full reasoning anyway: IEEE 754 cannot exactly represent most decimal fractions, so repeated addition accumulates error, and in a double-entry system that error means the ledger stops summing to zero. Cover why BigDecimal is safe but carries performance and serialization cost, and why integers in the smallest currency unit are the standard choice. Include a failing test demonstrating float drift, which makes the ADR concrete rather than theoretical.
-2. **Validation against projection vs. Concurrent commands.** If the Command Service validates against the balance projection, a bad state may occur when concurrent commands are processed. Due to the nature of the projection update being asynchronous, concurrent commands are susceptible to stale reads. This can then lead to the commands wrongfully passing the account floor and idempotency-key checks and getting persisted in the event logs. What's worse is any reconstruction of the projection from the event logs will still include this bad state, and will get pass the reconstruction test mentioned in section 4.6. Should the system prevent this or try to compensate? If preventing, how?
+2. **Validation against projection during concurrent commands.** If the Command Service validates against the balance projection, a bad state may occur when concurrent commands are processed. Due to the nature of the projection update being asynchronous, concurrent commands are susceptible to stale reads. This can then lead to the commands wrongfully passing the account floor and idempotency-key checks and getting persisted in the event log. What's worse is any reconstruction of the projection from the event logs will still include this bad state, and will pass the reconstruction test mentioned in section 4.6. Should the system prevent this or try to compensate? If preventing, how?
 3. **Bi-temporal modeling: effective time vs recorded time.** How both are stored, whether full as-of-both-axes querying is built or deferred, and what the deferral costs. See section 4.3.
 4. Kafka partition key: account ID vs transaction ID vs composite
 5. Schema format: Avro vs Protobuf vs JSON Schema, and which compatibility mode

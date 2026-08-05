@@ -1,6 +1,6 @@
 # CLAUDE.md — engineering conventions for `ledgerd`
 
-`DESIGN.md` is the spec. Read the relevant section before changing behaviour; do not work
+`docs/DESIGN.md` is the spec. Read the relevant section before changing behaviour; do not work
 from recall.
 
 ## Invariants

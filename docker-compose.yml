@@ -17,10 +17,10 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT,HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       # Overrides
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 # default is 3 for prod. Must be >= node count which in local's case, is 1. Same reasoning for the 2 below
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR:
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 # default is 3 for prod. Must be <= node count which in local's case, is 1. Same reasoning for the 2 below
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0 # default is 3 which is useful in production to let consumers settle in, better 0 for local for easier testing
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0 # default is 3000 which is useful in production to let consumers settle in, better 0 for local for easier testing
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false" # default is true. But false here to prevent typos from getting through.
       KAFKA_LOG_DIRS: /var/lib/kafka/data
     healthcheck:
@@ -32,7 +32,7 @@ services:
     image: postgres:17.10
     container_name: ledgerd-postgres
     ports:
-      - "5433:5433"
+      - "5433:5432"
     environment:
       POSTGRES_DB: ledgerd
       POSTGRES_USER: ledgerd

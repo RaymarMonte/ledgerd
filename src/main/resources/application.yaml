@@ -2,7 +2,7 @@ spring:
   application:
     name: ledgerd
   datasource:
-    url: jdbc:postgresql://localhost:5433/mydatabase
+    url: jdbc:postgresql://localhost:5433/ledgerd
     username: ledgerd
     password: ledgerd
   jpa:

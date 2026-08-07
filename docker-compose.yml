@@ -32,7 +32,7 @@ services:
     image: postgres:17.10
     container_name: ledgerd-postgres
     ports:
-      - "5433:5432"
+      - "5433:5432" # The standard postgres port, 5432, was occupied at the time of writing this file, so 5433 is used
     environment:
       POSTGRES_DB: ledgerd
       POSTGRES_USER: ledgerd

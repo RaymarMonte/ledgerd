@@ -5,13 +5,8 @@ spring:
     url: jdbc:postgresql://localhost:5433/ledgerd
     username: ledgerd
     password: ledgerd
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
   flyway:
     enabled: true
     locations: classpath:db/migration
+  kafka:
+    bootstrap-servers: localhost:9092

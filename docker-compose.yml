@@ -28,6 +28,14 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+  kafka-init:
+    image: apache/kafka:4.3.1
+    depends_on:
+      kafka:
+        condition: service_healthy
+    container_name: ledgerd-kafka-init
+    restart: "no"
+    command: "/opt/kafka/bin/kafka-topics.sh --create --topic ledger.postings --partitions 3 --replication-factor 1 --if-not-exists --bootstrap-server kafka:29092"
   postgres:
     image: postgres:17.10
     container_name: ledgerd-postgres
